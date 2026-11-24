@@ -16,9 +16,14 @@ def main(argv=None):
     if not args.files:
         print("%7d %7d %7d" % count(sys.stdin.read()))
         return 0
+    total = [0, 0, 0]
     for name in args.files:
         with open(name, encoding="utf-8") as f:
-            print("%7d %7d %7d %s" % (*count(f.read()), name))
+            counts = count(f.read())
+        total = [t + c for t, c in zip(total, counts)]
+        print("%7d %7d %7d %s" % (*counts, name))
+    if len(args.files) > 1:
+        print("%7d %7d %7d total" % tuple(total))
     return 0
 
 
